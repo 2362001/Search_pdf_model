@@ -1,0 +1,40 @@
+<div class="container">
+  <h1 class="title">RAG Demo App</h1>
+
+  <div class="content">
+    <!-- Upload Section -->
+    <div class="box">
+      <h2>Upload File</h2>
+      <input type="file" (change)="onFileSelected($event)" />
+      <button (click)="upload()">Upload</button>
+      <p class="message" *ngIf="uploadMessage">{{ uploadMessage }}</p>
+    </div>
+
+    <!-- Search Section -->
+    <div class="box">
+      <h2>Tìm kiếm</h2>
+
+      <div class="form-group">
+        <input [(ngModel)]="query" placeholder="Nhập nội dung" />
+        <button (click)="search()">Search</button>
+      </div>
+
+      <div *ngIf="results.length > 0" class="results">
+        <table>
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of results">
+              <td>{{ r.fileName }}</td>
+              <td>{{ r.score | number : "1.2-2" }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

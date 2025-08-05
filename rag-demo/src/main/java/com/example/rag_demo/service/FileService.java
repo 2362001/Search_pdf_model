@@ -6,6 +6,8 @@ import com.example.rag_demo.entity.SearchResult;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
 import org.apache.tika.Tika;
 import org.apache.tika.exception.TikaException;
 import org.bson.Document;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,6 +33,13 @@ public class FileService {
 
     private final MongoTemplate mongoTemplate;
     private final EmbeddingClient embeddingClient;
+
+    public static String removeVietnameseDiacritics(String text) {
+        String normalized = java.text.Normalizer.normalize(text, java.text.Normalizer.Form.NFD);
+        return normalized.replaceAll("\\p{M}", "")  // Remove diacritic marks
+                .replaceAll("đ", "d")      // Replace đ
+                .replaceAll("Đ", "D");     // Replace Đ
+    }
 
     public void processFile(MultipartFile file) throws IOException, TikaException {
         String content = extractText(file);
@@ -43,24 +53,36 @@ public class FileService {
         mongoTemplate.save(fileChunk);
     }
 
-    public static String removeVietnameseDiacritics(String text) {
-        String normalized = java.text.Normalizer.normalize(text, java.text.Normalizer.Form.NFD);
-        return normalized.replaceAll("\\p{M}", "")  // Remove diacritic marks
-                .replaceAll("đ", "d")      // Replace đ
-                .replaceAll("Đ", "D");     // Replace Đ
-    }
-
     private String extractText(MultipartFile file) throws IOException, TikaException {
         String mimeType = new Tika().detect(file.getInputStream());
 
         if (mimeType.startsWith("image/")) {
-//            return extractTextFromImage(file);
+            return extractTextFromImage(file);
         } else if (mimeType.startsWith("audio/")) {
             return transcribeAudio(file); // gọi Whisper để chuyển âm thanh thành text
         }
 
         // Mặc định: văn bản
         return new Tika().parseToString(file.getInputStream());
+    }
+
+    private String extractTextFromImage(MultipartFile file) throws IOException {
+        // Lưu file tạm ra ổ đĩa để OCR
+        File tempFile = File.createTempFile("upload", ".tmp");
+        file.transferTo(tempFile);
+
+        // Khởi tạo Tesseract
+        Tesseract tesseract = new Tesseract();
+        tesseract.setDatapath("C:/Program Files/Tesseract-OCR/tessdata"); // Đường dẫn đến thư mục tessdata
+        tesseract.setLanguage("eng+vie"); // hỗ trợ tiếng Anh + tiếng Việt nếu đã cài gói
+
+        try {
+            return tesseract.doOCR(tempFile);
+        } catch (TesseractException e) {
+            throw new RuntimeException("Failed to extract text from image", e);
+        } finally {
+            tempFile.delete(); // Xoá file tạm
+        }
     }
 
     private String transcribeAudio(MultipartFile file) throws IOException {
@@ -161,7 +183,6 @@ public class FileService {
                 .map(c -> new SearchResult(c.getFileName(), c.getScore()))
                 .collect(Collectors.toList());
     }
-
 
 
 }

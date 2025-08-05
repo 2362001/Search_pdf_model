@@ -1,0 +1,136 @@
+$primary-color: #007bff;
+$primary-hover: #0056b3;
+$success-color: #28a745;
+$success-hover: #1e7e34;
+$bg-color: #f0f8ff;
+$white: #ffffff;
+$border-radius: 10px;
+$box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: $bg-color;
+  color: #333;
+}
+
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: $bg-color;
+
+  .title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: $primary-color;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+  }
+
+  .box {
+    background: $white;
+    padding: 2rem;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    flex: 1;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: $primary-color;
+    }
+
+    input[type="file"],
+    input[type="text"],
+    input[type="search"] {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #ccc;
+      border-radius: $border-radius;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 0.7rem 1.5rem;
+      background-color: $primary-color;
+      color: $white;
+      border: none;
+      border-radius: $border-radius;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: $primary-hover;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      gap: 0.5rem;
+
+      input {
+        flex: 1;
+      }
+
+      button {
+        background-color: $success-color;
+
+        &:hover {
+          background-color: $success-hover;
+        }
+      }
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: $success-color;
+    }
+
+    .results {
+      margin-top: 1rem;
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+
+        th, td {
+          padding: 0.75rem;
+          text-align: left;
+          border: 1px solid #e0e0e0;
+        }
+
+        th {
+          background-color: #eaf4ff;
+          color: #333;
+        }
+
+        tr:hover {
+          background-color: #f1faff;
+        }
+      }
+    }
+  }
+}
