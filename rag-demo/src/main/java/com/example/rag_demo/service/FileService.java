@@ -124,48 +124,85 @@ public class FileService {
         return chunks;
     }
 
-    public List<SearchResult> search(String query) {
-        List<Double> queryVector = embeddingClient.getEmbedding(query);
+//    public List<SearchResult> search(String query) {
+//        List<Double> queryVector = embeddingClient.getEmbedding(query);
+//
+//        List<Document> pipeline = List.of(
+//                new Document("$vectorSearch",
+//                        new Document("index", "vector_index")
+//                                .append("path", "embedding")
+//                                .append("queryVector", queryVector)
+//                                .append("numCandidates", 100)
+//                                .append("limit", 30)
+//                ),
+//                new Document("$project",
+//                        new Document("fileName", 1)
+//                                .append("score", new Document("$meta", "vectorSearchScore"))
+//                                .append("source", "vector")
+//                ),
+//                new Document("$unionWith",
+//                        new Document("coll", "chunks")
+//                                .append("pipeline", List.of(
+//                                        new Document("$search", new Document()
+//                                                .append("index", "default")
+//                                                .append("text", new Document()
+//                                                        .append("query", query)
+//                                                        .append("path", List.of("content", "fileName"))
+//                                                )
+//                                        ),
+//                                        new Document("$project", new Document()
+//                                                .append("fileName", 1)
+//                                                .append("score", new Document("$meta", "searchScore"))
+//                                                .append("source", "text")
+//                                        )
+//                                ))
+//                ),
+//                new Document("$sort", new Document("score", -1)),
+//                new Document("$limit", 50)
+//        );
+//
+//        Aggregation aggregation = Aggregation.newAggregation(
+//                pipeline.stream().map((Document stage) -> (AggregationOperation) context -> stage)
+//                        .collect(Collectors.toList())
+//        );
+//
+//        AggregationResults<FileChunkWithScore> results = mongoTemplate.aggregate(
+//                aggregation, "chunks", FileChunkWithScore.class
+//        );
+//
+//        Map<String, FileChunkWithScore> topChunkByFile = new HashMap<>();
+//        for (FileChunkWithScore chunk : results.getMappedResults()) {
+//            String fileName = chunk.getFileName();
+//            if (!topChunkByFile.containsKey(fileName) || chunk.getScore() > topChunkByFile.get(fileName).getScore()) {
+//                topChunkByFile.put(fileName, chunk);
+//            }
+//        }
+//
+//        return topChunkByFile.values().stream()
+//                .sorted((a, b) -> Double.compare(b.getScore(), a.getScore()))
+//                .map(c -> new SearchResult(c.getFileName(), c.getScore()))
+//                .collect(Collectors.toList());
+//    }
 
+    public List<SearchResult> search(String query) {
+        // Tạo pipeline chỉ dùng $regex search
         List<Document> pipeline = List.of(
-                new Document("$vectorSearch",
-                        new Document("index", "vector_index")
-                                .append("path", "embedding")
-                                .append("queryVector", queryVector)
-                                .append("numCandidates", 100)
-                                .append("limit", 30)
+                new Document("$match", new Document("content", new Document("$regex", query).append("$options", "i"))),
+                new Document("$project", new Document("fileName", 1)
+                        .append("score", 1) // Không có searchScore nên giữ nguyên
+                        .append("source", "regex")
                 ),
-                new Document("$project",
-                        new Document("fileName", 1)
-                                .append("score", new Document("$meta", "vectorSearchScore"))
-                                .append("source", "vector")
-                ),
-                new Document("$unionWith",
-                        new Document("coll", "chunks")
-                                .append("pipeline", List.of(
-                                        new Document("$search", new Document()
-                                                .append("index", "default")
-                                                .append("text", new Document()
-                                                        .append("query", query)
-                                                        .append("path", List.of("content", "fileName"))
-                                                )
-                                        ),
-                                        new Document("$project", new Document()
-                                                .append("fileName", 1)
-                                                .append("score", new Document("$meta", "searchScore"))
-                                                .append("source", "text")
-                                        )
-                                ))
-                ),
-                new Document("$sort", new Document("score", -1)),
                 new Document("$limit", 50)
         );
 
+        // Build aggregation
         Aggregation aggregation = Aggregation.newAggregation(
-                pipeline.stream().map((Document stage) -> (AggregationOperation) context -> stage)
+                pipeline.stream()
+                        .map((Document stage) -> (AggregationOperation) context -> stage)
                         .collect(Collectors.toList())
         );
 
+        // Chạy aggregation
         AggregationResults<FileChunkWithScore> results = mongoTemplate.aggregate(
                 aggregation, "chunks", FileChunkWithScore.class
         );
@@ -173,15 +210,18 @@ public class FileService {
         Map<String, FileChunkWithScore> topChunkByFile = new HashMap<>();
         for (FileChunkWithScore chunk : results.getMappedResults()) {
             String fileName = chunk.getFileName();
-            if (!topChunkByFile.containsKey(fileName) || chunk.getScore() > topChunkByFile.get(fileName).getScore()) {
-                topChunkByFile.put(fileName, chunk);
-            }
+            // Nếu chưa có thì thêm vào thôi, không quan tâm score
+            topChunkByFile.putIfAbsent(fileName, chunk);
         }
 
         return topChunkByFile.values().stream()
-                .sorted((a, b) -> Double.compare(b.getScore(), a.getScore()))
-                .map(c -> new SearchResult(c.getFileName(), c.getScore()))
+                .map(c -> new SearchResult(c.getFileName(), 0.0)) // bỏ  score
                 .collect(Collectors.toList());
+    }
+
+
+    public List<FileChunk> getAllFiles() {
+        return mongoTemplate.findAll(FileChunk.class, "chunks");
     }
 
 
