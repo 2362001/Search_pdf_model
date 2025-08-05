@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  java-service:
+    build: ./java-service
+    ports:
+      - "7654:7654"
+    networks:
+      - rag-network
+
+  python-service:
+    build: ./python-service
+    ports:
+      - "5000:5000"
+    networks:
+      - rag-network
+
+  angular-app:
+    build: ./angular-app
+    ports:
+      - "4200:80"
+    networks:
+      - rag-network
+
+networks:
+  rag-network:
+    driver: bridge
