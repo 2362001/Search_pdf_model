@@ -1,0 +1,15 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/postRagdb  # <--- dùng local MongoDB
+
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+embedding:
+  service-url: http://localhost:8000/embedding
+
+server:
+  port: 7654

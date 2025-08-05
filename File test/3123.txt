@@ -1,0 +1,1090 @@
+
+TẬP ĐOÀN  
+
+BƯU CHÍNH VIỄN THÔNG  
+
+VIỆT NAM 
+
+CÔNG TY CÔNG NGHỆ THÔNG TIN VNPT 
+
+CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM 
+
+Độc lập - Tự do - Hạnh phúc 
+
+ 
+
+                     Số                                      
+
+Vv ghi nhận doanh thu cho trung tâm SI về nhiệm vụ 
+
+phát triển & triển khai giải pháp giám sát hiệu năng 
+
+phần mềm (APM - Application 
+
+Performance Management) 
+
+ 
+
+Hà Nội, ngày         tháng         năm 
+
+Kính gửi  
+
+ 
+
+ 
+
+- Ban Kế hoạch Đầu tư; 
+
+- Ban Chất lượng Sản phẩm; 
+
+- Trung tâm Giải pháp tích hợp hệ thống. 
+
+Căn cứ tại văn bản số 2088VNPTIT-CLGSP ngày 03072024 về việc giao nhiệm 
+
+vụ phát triển giải pháp APM. 
+
+Xét đề nghị của trung tâm SI tại văn bản số 191TTr-SI-QLSP ngày 08082024 về 
+
+việc báo cáo phạm vi công việc, dự kiến nguồn lực thực hiện nhiệm vụ phát triển giải 
+
+pháp APM do Công ty giao. 
+
+Căn cứ tại văn bản số 1305VNPTIT-KHĐT ngày 26042024 về việc cơ chế phát 
+
+triển, nâng cấp sản phẩm dịch vụ. 
+
+Căn cứ tại văn bản số 946VNPTIT-CLGSP-CLSP-KHĐT ngày 28032024 về 
+
+việc tuân thủ các quy định trong phát triển sản phẩm, rút ngắn thời gian và nâng cao chất 
+
+lượng công tác GTM, kiểm định chất lượng phần mềm. 
+
+Công ty phê duyệt kế hoạch thực hiện phát triển hệ thống giám sát hiệu năng ứng 
+
+dụng APM được đưa ra trong tờ trình 191TTr-SI-QLSP của trung tâm SI và dự toán 
+
+cho việc thực hiện nhiệm vụ phát triển & triển khai giải pháp (APM) giám sát hiệu năng 
+
+phần mềm, như sau 
+
+STT Nội dung Chi phí dự toán 
+
+(VNĐ) 
+
+Ghi chú 
+
+1 Dự toán chi phí nhân 
+
+công  
+
+1.291.707.400 Tạm tính theo đơn giá 
+
+25.999.600 đồngMM x 
+
+49,6 MM 
+
+2 Dự toán chi phí hạ tầng  198.758.266 2 năm 
+
+ TỔNG 1.490.465.666  
+
+(Chi tiết Phụ lục 1 & 2) 
+
+  
+
+CÔNG TY CÔNG NGHỆ THÔNG TIN VNPT - CHI NHÁNH TẬP ĐOÀN BƯU CHÍNH VIỄN THÔNG VIỆT NAM
+3292VNPTIT-CLGSP-KHĐT
+
+CÔNG TY CÔNG NGHỆ THÔNG TIN VNPT - CHI NHÁNH TẬP ĐOÀN BƯU CHÍNH VIỄN THÔNG VIỆT NAM
+02
+
+CÔNG TY CÔNG NGHỆ THÔNG TIN VNPT - CHI NHÁNH TẬP ĐOÀN BƯU CHÍNH VIỄN THÔNG VIỆT NAM
+10
+
+CÔNG TY CÔNG NGHỆ THÔNG TIN VNPT - CHI NHÁNH TẬP ĐOÀN BƯU CHÍNH VIỄN THÔNG VIỆT NAM
+2024
+
+
+
+Công ty giao Trung tâm SI 
+
+- Thực hiện đúng theo tiến độ và chất lượng Công ty đã phê duyệt, tuân thủ các 
+
+quy định trong phát triển sản phẩm phần mềm (VB 946VNPTIT-CLGSP-CLSP-
+
+KHĐT). 
+
+- Trong quá trình thực hiện, đơn vị khai báo các chi phí (logwork, chi phí hạ 
+
+tầng, ...) trên hệ thống quản lý chi phí Pfm theo đúng quy định. 
+
+- Sau khi hoàn thành từng giai đoạn, đơn vị báo cáo kết quả thực hiện về công ty. 
+
+- Sau khi hoàn thành dự án hoặc Tháng 12, đơn vị chủ trì báo cáo hoàn thành công 
+
+việc (tổng hợp đầy đủ chi phí thực tế đã phát sinh, tính toán giá trị công việc đã hoàn 
+
+thành) trình Công ty để Công ty thẩm định, ghi nhận doanh thu nội bộ. Giá trị ghi nhận 
+
+theo khối lượng công việc thực tế đã hoàn thành và không vượt quá dự toán Công ty đã 
+
+phê duyệt. 
+
+- Công ty giao Ban KHĐT chủ trì, phối hợp Ban CLGSP ghi nhận doanh thu cho 
+
+trung tâm SI theo cơ chế kinh tế hiện hành của Công ty. 
+
+- Công ty giảm trừ doanh thu ghi nhận cho đơn vị trong trường hợp đơn vị không 
+
+hoàn thành phát triển theo kế hoạch được giao (ngoại trừ trường hợp đơn vị không hoàn 
+
+thành kế hoạch được giao vì lí do khách quan, được lãnh đạo Công ty đồng ý gia hạn), 
+
+cụ thể như sau 
+
++ Thời điểm giảm trừ 01 lần khi đơn vị hoàn thành nhiệm vụ và Công ty ghi nhận 
+
+cho đơn vị. 
+
++ Giá trị giảm trừ 5% doanh thu phát triển, nâng cấp SPDV đơn vị được hưởng 
+
+cho mỗi 01 tháng chậm tiến độ theo kế hoạch đã giao đơn vị. Số tháng chậm được tính 
+
+bằng cách làm tròn lên. Tổng giá trị giảm trừ không vượt quá 20% giá trị ghi nhận cho 
+
+đơn vị. 
+
++ Tổ chức thực hiện 
+
+ Ban CLGSP đánh giá và thông báo số tháng chậm tiến độ cho Ban KHĐT 
+
+bằng văn bản.  
+
+ Ban KHĐT rà soát, trình Lãnh đạo Công ty phê duyệt phương án giảm trừ 
+
+doanh thu đơn vị. 
+
+Trân trọng ..  
+
+Nơi nhận 
+
+- Như trên; 
+
+- Anh Luân PTGĐ (để biết); 
+
+- Ban KHĐT, CLGSP (th); 
+
+- TT SI (th); 
+
+- Lưu VT, VP, CLGSP, KHĐT. 
+
+eOffice 854846VBKS 
+
+TỔNG GIÁM ĐỐC 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Phạm Huy Hoàng 
+
+ 
+
+
+
+PHỤ LỤC 1 KẾ HOẠCH DỰ KIẾN 
+
+ 
+
+STT 
+Các nội dung, công việc chủ yếu cần được thực 
+
+hiện 
+Kết quả phải đạt 
+
+Thời hạn hoàn 
+
+thành 
+Role 
+
+Dự kiến 
+
+tổng số 
+
+mandays 
+
+thực 
+
+hiện 
+
+Tổng         1093 
+
+I 
+Giai đoạn 1 Nghiên cứu, xây dựng tính năng 
+
+APM 
+  092024    45 
+
+I.1 
+
+Nghiên cứu, tìm hiểu về tính năng của các giải pháp 
+
+Hệ thống giám sát hiệu suất ứng dụng (APM) thông 
+
+dụng trên thế giới 
+
+Báo cáo Nghiên cứu, tìm hiểu về tính 
+
+năng của các giải pháp Hệ thống giám sát 
+
+hiệu suất ứng dụng (APM) thông dụng 
+
+trên thế giới 
+
+  BA 11 
+
+I.2 
+Nghiên cứu, tìm hiểu về kiến trúc và nền tảng triển 
+
+khai của các giải pháp APM 
+
+Báo cáo Nghiên cứu, tìm hiểu về kiến 
+
+trúc của các giải pháp Hệ thống giám sát 
+
+hiệu suất ứng dụng (APM) thông dụng 
+
+trên thế giới   
+
+System 11 
+
+I.3 
+Nghiên cứu, đánh giá lựa chọn công nghệ, giải pháp 
+
+mã nguồn mở 
+
+Nghiên cứu, đánh giá lựa chọn công 
+
+nghệ, giải pháp mã nguồn mở   
+
+System 12 
+
+I.4 
+
+Nghiên cứu, đề xuất danh sách tính năng cho hệ 
+
+thống giám sát hiệu suất ứng dụng APM cung cấp tại 
+
+VNPT 
+
+Báo cáo danh sách tính năng đề xuất  
+
+  
+
+BA 
+
+11 
+
+II Giai đoạn 2 Phát triển tính năng hệ thống APM   122024 
+  306  
+
+II.1 
+Xác định yêu cầu cần thiết cho hệ thống APM 
+
+ - Xác định yêu cầu người dùng. 
+
+ 
+
+Tài liệu URD Xác định yêu cầu người 
+
+dùng cho hệ thống APM   
+
+BA 
+
+10 
+
+II.2 
+Xác định yêu cầu cần thiết cho hệ thống APM 
+
+ - Xác định yêu cầu tính năng hệ thống 
+
+ 
+
+Thiết kế giao diện xác định yêu cầu tính 
+
+năng cần thiết cho hệ thống APM   
+
+BA 
+
+20 
+
+
+
+STT 
+Các nội dung, công việc chủ yếu cần được thực 
+
+hiện 
+Kết quả phải đạt 
+
+Thời hạn hoàn 
+
+thành 
+Role 
+
+Dự kiến 
+
+tổng số 
+
+mandays 
+
+thực 
+
+hiện 
+
+II.3 
+Xác định yêu cầu cần thiết cho hệ thống APM 
+
+ - Xác định yêu cầu tính năng hệ thống 
+
+ 
+
+Tài liệu SRS Xác định yêu cầu tính năng 
+
+cần thiết cho hệ thống APM   
+
+BA 
+
+10 
+
+II.4 Thiết kế hệ thống APM 
+Tài liệu Thiết kế hệ thống APM 
+
+SADHLD, LLD   Dev 24 
+
+II.5 Xây dựng hạ tầng dev test   
+  
+
+System 20 
+
+II.6 
+
+Tích hợp triển khai backend cung cấp tính năng 
+
+monitoring, logging  
+
+- Giám sát, alert 
+
+- Thu thập log, phân tích logs 
+
+  
+
+  
+
+System 30 
+
+II.7 
+
+Tích hợp triển khai backend cung cấp tính năng 
+
+tracing 
+
+- Thử nghiệm tích hợp module tracing 
+
+- Xây dựng phương án tích hợp java client vào source 
+
+ứng dụng khách hàng  
+
+  
+
+  
+
+System 28 
+
+II.8 
+Xây dựng danh sách API phát triển tính năng của 
+
+module  
+
+Tài liệu danh sách API module giám sát, 
+
+logging, tracing   
+System 16 
+
+II.9 
+ Xây dựng hệ thống APM 
+
+- Phát triển module giám sát Metrics. 
+  
+
+  Dev 
+  
+
+II.9.1 - Phát triển module giám sát Metrics.     Dev 30 
+
+II.9.2 - Phát triển module giám sát Logs.     Dev 30 
+
+II.9.3 - Phát triển module giám sát Tracing.     Dev 30 
+
+
+
+STT 
+Các nội dung, công việc chủ yếu cần được thực 
+
+hiện 
+Kết quả phải đạt 
+
+Thời hạn hoàn 
+
+thành 
+Role 
+
+Dự kiến 
+
+tổng số 
+
+mandays 
+
+thực 
+
+hiện 
+
+II.9.4 - Phát triển module hiển thị trực quan hóa dữ liệu.     Dev 28 
+
+II.10 
+
+Kiểm thử các Module của hệ thống APM 
+
+- Xây dựng testcase cho các Module. 
+
+- Xây dựng kịch bản AutoTest.  
+
+- Xây dựng môi trường và tiến hành kiểm thử các 
+
+Module. 
+
+- Xây dựng tài liệu kết quả kiểm thử. 
+
+Báo cáo kiểm thử Test report  
+
+  Tester 30 
+
+III 
+Giai đoạn 3  Phát triển hệ thống quản trị, giám 
+
+sát, báo cáo thống kê 
+  
+
+022025   526  
+
+III.1 
+
+Xác định yêu cầu cần thiết cho việc quản lý, giám sát, 
+
+báo cáo thống kê dịch vụ 
+
+- Xác định yêu cầu tính năng người dùng. 
+
+Tài liệu URD Xác định yêu cầu cần thiết 
+
+cho việc quản trị, giám sát, báo cáo thống 
+
+kê 
+  BA 10 
+
+III.2 
+
+Xác định yêu cầu cần thiết cho việc quản lý, giám sát, 
+
+báo cáo thống kê dịch vụ 
+
+ - Xác định yêu cầu tính năng hệ thống 
+
+ 
+
+Thiết kế giao diện xác định yêu cầu tính 
+
+năng cần thiết cho việc quản trị, giám sát, 
+
+báo cáo thống kê 
+
+  BA 15 
+
+III.3 
+
+Xác định yêu cầu cần thiết cho việc quản lý, giám sát, 
+
+báo cáo thống kê dịch vụ 
+
+ - Xác định yêu cầu tính năng hệ thống 
+
+ 
+
+Tài liệu SRS Xác định yêu cầu tính năng 
+
+cần thiết cho cho việc quản trị, giám sát, 
+
+báo cáo thống kê  
+
+  BA 9 
+
+III.4 
+
+Thiết kế hệ thống quản trị, giám sát, báo cáo thống 
+
+kê  
+
+- Thiết kế mức cao (HLD - High Level Design).  
+
+- Thiết kế chi tiết (LLD - Low Level Design). 
+
+Tài liệu thiết kế hệ thống SADHLD, 
+
+LLD 
+
+  DevLeader 32 
+
+III.5 
+Tích hợp, xây dựng backend hỗ trợ tính năng Muti 
+
+tency 
+  
+
+  
+System 
+
+30 
+
+
+
+STT 
+Các nội dung, công việc chủ yếu cần được thực 
+
+hiện 
+Kết quả phải đạt 
+
+Thời hạn hoàn 
+
+thành 
+Role 
+
+Dự kiến 
+
+tổng số 
+
+mandays 
+
+thực 
+
+hiện 
+
+- Cô lập tài nguyên của tenant 
+
+- Hỗ trợ thực phân quyền theo từng tenant (RBAC) 
+
+III.6 Tích hợp công cụ xác thực, SSO     System 22 
+
+III.7 Xây dựng kịch bản triển khai trên K8S  Source helm chart triển khai trên SCM   System 22 
+
+III.8 
+Xây dựng danh sách API phát triển các tính năng 
+
+quản lý multi tenancy 
+Tài liệu danh sách API tích hợp portal 
+
+  
+System  
+
+15 
+
+III.9 
+Phát triển các Module quản lý, giám sát, báo cáo 
+
+thống kê 
+
+Phần mềm Phát triển các module quản lý, 
+
+giám sát, báo cáo thống kê   
+Dev 
+
+  
+
+III.9.1 Phát triển tính năng quản lý người dùng, đơn vị     Dev 30 
+
+III.9.2 
+
+Phát triển tính năng xác thực, phần quyền người 
+
+dùng. 
+  
+
+  
+Dev 
+
+30 
+
+III.9.3 Phát triển module quản lý, phân quyền project     Dev 30 
+
+III.9.4 Phát triển module quản lý hạ tầng triển khai     Dev 30 
+
+III.9.5 Phát triển module khởi tạo dịch vụ     Dev 30 
+
+III.9.6 Phát triển module nâng cấp, ngắt, hủy dịch vụ     Dev 30 
+
+III.9.7 Phát triển module báo cáo thông kê thông số dịch vụ     Dev 30 
+
+III.9.8 Phát triển module thông báo ( websocket, email )     Dev 30 
+
+III.11 
+
+Đánh giá tải, tối ưu hiệu năng, sizing  
+
+- Đánh giá tải, hiệu năng 
+
+- Xây dựng tài liệu kiểm thử hiệu năng  
+
+- Tunning, tối ưu backend 
+
+- Sizing hạ tầng  
+
+- Giải pháp Backuprestore 
+
+1. Kịch bản kiểm thử hiệu năng 
+
+2. Tài liệu sizing hệ thống  
+
+3. Tài liệu mô tả thủ tục backuprestore 
+
+(bổ sung vào IG, OA) 
+
+  System  
+
+36 
+
+III.12 Kiểm thử hiệu năng hệ thống 
+1. Script test hiệu năng 
+
+2. Báo cáo kiểm thử hiệu năng  
+  Tester 15 
+
+
+
+STT 
+Các nội dung, công việc chủ yếu cần được thực 
+
+hiện 
+Kết quả phải đạt 
+
+Thời hạn hoàn 
+
+thành 
+Role 
+
+Dự kiến 
+
+tổng số 
+
+mandays 
+
+thực 
+
+hiện 
+
+III.13 
+Xây dựng bộ example code hỗ trợ các ngôn ngữ 
+
+thông dụng cho Tracing 
+
+Xây dựng example code phục vụ tích hợp 
+
+tracing cho các ngôn ngữ phổ biến  
+
+Go, Java, .NET core, .NET framework, 
+
+Node.js ,… 
+
+  Dev 30 
+
+III.14 
+Tối ưu bộ example code, thư viện hỗ trợ các ngôn 
+
+ngữ thông dụng cho Tracing 
+
+Thư viện, example code tối ưu về hiệu 
+
+năng, tài nguyên ứng dụng 
+  Dev 20 
+
+III.15 
+
+Kiểm thử các module quản lý, giám sát, báo cáo 
+
+thống kê  
+
+- Dựng các Testcase cho các module.  
+
+- Dựng kịch bản kiểm thử cho các testcase.  
+
+- Dựng môi trường và tiến hành kiểm thử các 
+
+Module.  
+
+- Tổng hợp và báo báo về việc kiểm thử quản lý, báo 
+
+cáo thống kê. 
+
+Bộ tài liệu kiểm thử và báo cáo kiểm thử 
+
+các module quản lý, giám sát, báo cáo 
+
+thống kê 
+  Tester 30 
+
+IV Giai đoạn 4 Triển khai thử nghiệm Báo cáo, kết quả Triển khai, thử nghiệm 032025    80 
+
+IV.1 
+
+Xây dựng hạ tầng thử nghiệm tại IDC NTL 
+
+- Chuẩn bị tài nguyên, hạ tầng, đóng gói kịch bản 
+
+triển khai 
+
+- Triển khai portal phục vụ self service 
+
+- Triển khai backend tích hợp 3 module monitoring, 
+
+logging, trace 
+
+- Kết nối mạng, kiểm định ATTT 
+
+Hạ tầng thử nghiệm 
+
+  System 30 
+
+IV.2 
+Khảo sát, đánh giá và lựa chọn 01 sản phẩm dịch vụ 
+
+VNPT để thử nghiệm 
+  
+
+  System 10 
+
+IV.3 
+Triển khai tích hợp SPDV 01 trên hạ tầng  
+
+- Xây dựng kế hoạch tích hợp 
+  
+
+  System 30 
+
+
+
+STT 
+Các nội dung, công việc chủ yếu cần được thực 
+
+hiện 
+Kết quả phải đạt 
+
+Thời hạn hoàn 
+
+thành 
+Role 
+
+Dự kiến 
+
+tổng số 
+
+mandays 
+
+thực 
+
+hiện 
+
+- Thực hiện triển khai tích hợp  
+
+- Điều chỉnh cấu hình phù hợp với môi trường khách 
+
+hàng 
+
+- Theo dõi giám sát sau triển khai 
+
+IV.4 
+Kết quả triển khai, thử nghiệm sản phẩm.  
+
+- Báo cáo thử nghiệm trên 01 sản phẩm 
+  
+
+  
+
+PdM, PM, 
+
+Leader 10 
+
+V Giai đoạn 5 Chuyển giao và đào tạo 
+Bộ tài liệu mô tả Xây dựng các bộ tài liệu 
+
+chuyển giao đào tạo 042025    51 
+
+V.1 
+
+Xây dựng tài liệu mô tả sản phẩm dịch vụ, tài liệu 
+
+đào tạo  
+PRD, Slide đào tạo 
+
+  BA 10 
+
+V.2 Xây dựng tài liệu hướng dẫn cài đặt. IG   System 10 
+
+V.3 Xây dựng tài liệu vận hành, quản trị. OA   System 10 
+
+V.4 Xây dựng tài liệu hướng dẫn sử dụng  UM   BA 7 
+
+V.5 
+Xây dựng bộ tài liệu hướng dẫn tích hợp  
+
+Tài liệu hướng dẫn tích hợp cho người 
+
+dùng    System 7 
+
+V.6 Báo cáo chuyển giao, đào tạo       7 
+
+VI Giai đoạn 6 Triển khai mở rộng tại Công ty  
+Bộ tài liệu mô tả Xây dựng các bộ tài liệu 
+
+chuyển giao đào tạo 062025   70  
+
+VI.1 
+
+Triển khai mở rộng tại Công ty Mỗi đơn vị 1 SPDV, 
+
+ưu tiên SPDV cốt lõi, hoặc doanh thu cao.  
+
+- Xây dựng kế hoạch tích hợp 
+
+- Thực hiện triển khai tích hợp  
+
+- Điều chỉnh cấu hình phù hợp với môi trường 
+
+- Theo dõi giám sát sau triển khai 
+
+  
+
+  BA,System 60 
+
+
+
+STT 
+Các nội dung, công việc chủ yếu cần được thực 
+
+hiện 
+Kết quả phải đạt 
+
+Thời hạn hoàn 
+
+thành 
+Role 
+
+Dự kiến 
+
+tổng số 
+
+mandays 
+
+thực 
+
+hiện 
+
+VI.2 
+
+Kết quả triển khai mở rộng tại Công ty.  
+
+- Báo cáo kết quẩ triển khai mở rộng tại Công ty 
+
+Kết quả triển khai & Các đơn vị xác nhận 
+
+sẽ có khả năng tự triển khai cho các 
+
+SPDV còn lại của đơn vị.   System 10 
+
+VII Giai đoạn 7 Bàn giao vận hành  
+Bộ tài liệu mô tả Xây dựng các bộ tài liệu 
+
+chuyển giao đào tạo 072025   15  
+
+VII.1 
+Xây dựng tài liệu vận hành khai thác, xử lý sự cố 
+
+ Tài liệu VHKH + XLSC theo yêu cầu 
+
+quy trình bàn giao vận hành   System 10 
+
+VII.2 
+Đào tạo sử dụng, vận hành  
+
+  
+
+BA, 
+
+System 5 
+
+ 
+
+PHỤ LỤC 2 HẠ TẦNG DỰ KIẾN  
+
+ 
+
+STT   Nội dung chi phí Thông số kỹ thuật   
+
+Số lượng 
+
+năm 1 
+
+Số lượng 
+
+năm 2 
+
+Đơn giá  
+
+(đồngtháng) 
+
+Chi phí năm 1 
+
+(đồngtháng) 
+
+Chi phí năm 2 
+
+(đồngtháng) 
+
+1   
+
+Chi phí thuê tài 
+
+nguyên ảo hóa sử 
+
+dung nội bộ 
+
+CPU 
+
+( 
+
+vCPU) 
+
+RAM 
+
+(GB) 
+
+HDD 
+
+(GB) 
+
+SSD 
+
+(GB) 
+
+Object 
+
+storage 
+
+()         
+
+ 
+
+ 
+Cụm 
+
+máy 
+
+chủ 
+
+vận 
+
+hành 
+
+Master node 4 12 100     3 3            847,800           2,543,400           2,543,400  
+
+  Infra node 16 32 500     2 2 
+
+         
+
+2,682,800           5,365,600           5,365,600  
+
+  Worker 96 128 1000     9 9 
+
+       
+
+10,143,200         91,288,800         91,288,800  
+
+  S3 Storage         1000 1 1 1200          1,200,000           1,200,000  
+
+    
+Cộng 1                    99,197,800      99,197,800  
+
+
+
+2   
+Chi phí tài 
+
+nguyên tên miền                     
+
+     .vnpt.vn      
+ 
+
+.vnpt.vn      1 1              83,333               83,333               83,333  
+
+    Cộng 2                            83,333             83,333  
+
+3   
+Chi phí tài 
+
+nguyên SSL                     
+
+    SSL           1 1              98,000               98,000               98,000  
+
+    Cộng 3                            98,000             98,000  
+
+    
+
+ 
+
+Cộng 1, 2, 3 
+
+                 
+
+      
+
+ 99,379,133  
+
+ 
+
+ 
+
+      99,379,133  
+
+  Tổng chi phí          
+198.758.266 
+
+  
+
+Phạm Huy Hoàng
+ID 2597325_1423 – Hệ thống Quản lý văn bản và điều hành eoffice.vnpt.vn – Tập đoàn Bưu chính viễn thông Việt Nam
+
+
+		Phạm Huy Hoàng
+	2024-10-02T111554+0700
+	Signer's office
+	Phạm Huy Hoàng
+	Signing document
+
+
+		CÔNG TY CÔNG NGHỆ THÔNG TIN VNPT - CHI NHÁNH TẬP ĐOÀN BƯU CHÍNH VIỄN THÔNG VIỆT NAM
+	2024-10-02T112502+0700
+	Signer's office
+	CÔNG TY CÔNG NGHỆ THÔNG TIN VNPT - CHI NHÁNH TẬP ĐOÀN BƯU CHÍNH VIỄN THÔNG VIỆT NAM
+	Signing document
+

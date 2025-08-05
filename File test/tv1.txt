@@ -1,0 +1,3 @@
+Các nhà khoa học đang nghiên cứu cách máy móc có thể hiểu được hành vi và cảm xúc của con người. 
+Bằng cách sử dụng dữ liệu lớn và trí tuệ nhân tạo, hệ thống có thể dự đoán tâm trạng, suy nghĩ và phản ứng của người dùng 
+dựa trên giọng nói, biểu cảm khuôn mặt và hành động của họ. Đây là một bước tiến quan trọng trong lĩnh vực tương tác người – máy.

@@ -1,0 +1,3 @@
+Python là một ngôn ngữ lập trình mạnh mẽ và dễ học, được sử dụng rộng rãi trong phát triển ứng dụng hiện đại. 
+Với sự hỗ trợ của các thư viện như Flask, FastAPI và PyTorch, các lập trình viên có thể xây dựng các hệ thống trí tuệ nhân tạo 
+và web API một cách nhanh chóng và hiệu quả. Đây là một lựa chọn phổ biến trong giới công nghệ hiện nay.
