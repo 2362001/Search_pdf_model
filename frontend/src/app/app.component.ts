@@ -1,34 +1,44 @@
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { ModalComponent } from './modal/modal.component';
-import { NzButtonSize } from 'ng-zorro-antd/button';
+import { FormsModule } from '@angular/forms';
+
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [
+    RouterOutlet,
+    FormsModule, // ✅ cần cho [(ngModel)]
+    NzButtonModule,
+    CommonModule,
+    NzModalModule,
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent {
+  private http = inject(HttpClient);
+  private cdr = inject(ChangeDetectorRef);
+  private modal = inject(NzModalService);
+
   selectedFile: File | null = null;
   uploadMessage = '';
   query = '';
   results: any[] = [];
   uploadedFiles: any[] = [];
 
-  scanInterval = 5000; // milliseconds (default 5s)
-  scanIntervalInput = 5; // seconds
+  scanInterval = 150000;
+  scanIntervalInput = 150;
   intervalId: any;
   scanMessage = '';
 
   isHistoryVisible = false;
   searchHistory: string[] = [];
   historyTimestamps: { [query: string]: string } = {};
-  size: NzButtonSize = 'large';
-  constructor(private http: HttpClient,
-    private cdr: ChangeDetectorRef,
-    private modal: NzModalService
-  ) { }
 
   ngOnInit() {
     this.fetchUploadedFiles();
@@ -41,12 +51,26 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onSearchHistory() {
     this.modal.create({
-      nzTitle: 'Thông báo',
-      nzContent: '<p>Nội dung tạm để kiểm tra hiển thị</p>',
+      nzTitle: 'Lịch sử tìm kiếm',
+      nzContent: this.generateHistoryHtml(),
       nzFooter: null,
       nzClosable: true,
-      nzMaskClosable: true
+      nzMaskClosable: true,
     });
+  }
+
+  generateHistoryHtml(): string {
+    if (this.searchHistory.length === 0) {
+      return '<p>Chưa có lịch sử tìm kiếm.</p>';
+    }
+
+    return `
+      <ul>
+        ${this.searchHistory
+        .map(query => `<li>${query} - ${this.historyTimestamps[query]}</li>`)
+        .join('')}
+      </ul>
+    `;
   }
 
   startAutoFetch() {
@@ -57,20 +81,21 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   clearAutoFetch() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
+    if (this.intervalId) clearInterval(this.intervalId);
   }
 
   updateScanInterval() {
     if (this.scanIntervalInput >= 1) {
       this.scanInterval = this.scanIntervalInput * 1000;
-      this.startAutoFetch(); // restart interval with new time
+      this.startAutoFetch();
     }
   }
 
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.selectedFile = input.files[0];
+    }
   }
 
   upload() {
@@ -95,18 +120,15 @@ export class AppComponent implements OnInit, OnDestroy {
   search() {
     if (!this.query) return;
 
-    // Gọi API tìm kiếm
     this.http.post<any[]>('http://localhost:7654/search', { query: this.query })
       .subscribe(res => {
         this.results = res;
 
-        // Ghi lại lịch sử tìm kiếm
         if (!this.searchHistory.includes(this.query)) {
           this.searchHistory.unshift(this.query);
         }
         this.historyTimestamps[this.query] = new Date().toLocaleString();
 
-        // Giới hạn lịch sử 10 mục gần nhất
         if (this.searchHistory.length > 10) {
           const removed = this.searchHistory.pop();
           if (removed) delete this.historyTimestamps[removed];
@@ -121,15 +143,16 @@ export class AppComponent implements OnInit, OnDestroy {
           this.uploadedFiles = res;
           this.scanMessage = `Đã quét dữ liệu lúc ${new Date().toLocaleTimeString()}`;
 
-          // Tự động ẩn thông báo sau 3 giây
           setTimeout(() => {
             this.scanMessage = '';
+            this.cdr.markForCheck();
           }, 3000);
         },
         error: () => {
           this.scanMessage = 'Lỗi khi quét dữ liệu!';
           setTimeout(() => {
             this.scanMessage = '';
+            this.cdr.markForCheck();
           }, 3000);
         }
       });

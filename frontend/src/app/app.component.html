@@ -1,29 +1,30 @@
 <div class="container">
-  <h1 class="title">RAG Demo App</h1>
+  <h1 class="title">RAG DEMO APP</h1>
 
-  <div class="history-search">
-    <!-- Button mở lịch sử tìm kiếm -->
-    <button nz-button nzType="default" (click)="onSearchHistory()">
-      Xem lịch sử tìm kiếm
-    </button>
-  </div>
-  <nz-alert nzType="success" nzMessage="Success Text"></nz-alert>
-  <!-- <button nz-button [nzSize]="size" nzType="primary">Primary</button> -->
+  <button
+    class="history-search"
+    nz-button
+    nzType="default"
+    (click)="onSearchHistory()"
+  >
+    Xem lịch sử tìm kiếm
+  </button>
+
   <div class="grid">
-    <!-- Left Column -->
     <div class="column">
-      <!-- Upload Section -->
       <div class="box">
         <h2>Upload File</h2>
-        <input type="file" (change)="onFileSelected($event)" />
-        <button (click)="upload()">Upload</button>
+        <div class="lbox">
+          <input type="file" (change)="onFileSelected($event)" />
+          <button class="btn" nz-button nzType="primary" (click)="upload()">
+            Upload
+          </button>
+        </div>
         <p class="message" *ngIf="uploadMessage">{{ uploadMessage }}</p>
       </div>
 
-      <!-- Uploaded Files Section -->
       <div class="box">
         <h2>Danh sách file đã upload</h2>
-
         <table *ngIf="uploadedFiles.length > 0">
           <thead>
             <tr>
@@ -38,20 +39,18 @@
             </tr>
           </tbody>
         </table>
-
         <p *ngIf="uploadedFiles.length === 0">Chưa có file nào được upload.</p>
       </div>
     </div>
 
-    <!-- Right Column -->
     <div class="column">
-      <!-- Search Section -->
       <div class="box">
         <h2>Tìm kiếm</h2>
-
         <div class="form-group">
           <input [(ngModel)]="query" placeholder="Nhập nội dung" />
-          <button (click)="search()">Search</button>
+          <button class="btn" nz-button nzType="primary" (click)="search()">
+            Search
+          </button>
         </div>
 
         <div *ngIf="results.length > 0" class="results">
@@ -73,13 +72,19 @@
       </div>
     </div>
   </div>
+
+  <div class="scan-interval">
+    <p>Thời gian quét data: {{ scanInterval / 1000 }}s một lần.</p>
+    <p class="scan-message" *ngIf="scanMessage">{{ scanMessage }}</p>
+    <label>
+      Đổi thời gian (giây):
+      <input type="number" [(ngModel)]="scanIntervalInput" min="1" />
+      <button nz-button nzType="default" (click)="updateScanInterval()">
+        Cập nhật
+      </button>
+    </label>
+  </div>
 </div>
-<!-- <div class="scan-interval">
-  <p>Thời gian quét data: {{ scanInterval / 1000 }}s một lần.</p>
-  <p class="scan-message" *ngIf="scanMessage">{{ scanMessage }}</p>
-  <label>
-    Đổi thời gian (giây):
-    <input type="number" [(ngModel)]="scanIntervalInput" min="1" />
-    <button (click)="updateScanInterval()">Cập nhật</button>
-  </label>
-</div> -->
+<router-outlet></router-outlet>
+<router-outlet name="left"></router-outlet>
+<router-outlet name="right"></router-outlet>
