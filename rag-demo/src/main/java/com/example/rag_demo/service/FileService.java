@@ -6,6 +6,8 @@ import com.example.rag_demo.entity.SearchResult;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.tika.Tika;
 import org.apache.tika.exception.TikaException;
 import org.bson.Document;
@@ -20,6 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,7 +34,6 @@ import java.util.stream.Collectors;
 public class FileService {
 
     private final MongoTemplate mongoTemplate;
-    private final EmbeddingClient embeddingClient;
 
     public static String removeVietnameseDiacritics(String text) {
         String normalized = java.text.Normalizer.normalize(text, java.text.Normalizer.Form.NFD);
@@ -54,42 +58,91 @@ public class FileService {
         String mimeType = new Tika().detect(file.getInputStream());
 
         if (mimeType.startsWith("image/")) {
-            return extractTextFromImage(file);
+            ByteArrayResource resource = new ByteArrayResource(file.getBytes()) {
+                @Override
+                public String getFilename() {
+                    return file.getOriginalFilename();
+                }
+            };
+            return extractTextFromImage(resource, file.getOriginalFilename());
         } else if (mimeType.startsWith("audio/")) {
-            return transcribeAudio(file); // gọi Whisper để chuyển âm thanh thành text
+            return transcribeAudio(file);
+        } else if (mimeType.equals("application/pdf")) {
+            return extractTextFromPdf(file); // 👉 Thêm hàm mới xử lý PDF
         }
 
-        // Mặc định: văn bản
+        // Trường hợp còn lại: văn bản
         return new Tika().parseToString(file.getInputStream());
     }
 
-    private String extractTextFromImage(MultipartFile file) throws IOException {
-        WebClient webClient = WebClient.builder()
-                .baseUrl("http://localhost:5000") // URL Flask OCR service
-                .build();
+    private String extractTextFromPdf(MultipartFile file) throws IOException {
+        List<String> pageTexts = new ArrayList<>();
 
-        return webClient.post()
-                .uri("/read-text")
-                .contentType(MediaType.MULTIPART_FORM_DATA)
-                .body(BodyInserters.fromMultipartData("image", new ByteArrayResource(file.getBytes()) {
+        try (PDDocument document = PDDocument.load(file.getInputStream())) {
+            PDFRenderer renderer = new PDFRenderer(document);
+
+            for (int i = 0; i < document.getNumberOfPages(); i++) {
+                int pageIndex = i;
+
+                BufferedImage image = renderer.renderImageWithDPI(pageIndex, 300);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(image, "png", baos);
+                baos.flush();
+                byte[] imageBytes = baos.toByteArray();
+
+                // ✅ Tạo ByteArrayResource trực tiếp từ ảnh PNG
+                ByteArrayResource imageResource = new ByteArrayResource(imageBytes) {
                     @Override
                     public String getFilename() {
-                        return file.getOriginalFilename();
+                        return "page" + pageIndex + ".png";
                     }
-                }))
-                .retrieve()
-                .bodyToMono(String.class)
-                .map(response -> {
-                    try {
-                        ObjectMapper mapper = new ObjectMapper();
-                        JsonNode node = mapper.readTree(response);
-                        // Lấy text đã được AI sửa
-                        return node.get("ai_corrected_text").asText();
-                    } catch (Exception e) {
-                        return "";
-                    }
-                })
-                .block();
+                };
+
+                // ✅ Gửi ảnh OCR bằng WebClient
+                String ocrText = sendImageToOcrService(imageResource);
+                pageTexts.add(ocrText);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IOException("Lỗi khi xử lý PDF", e);
+        }
+
+        return String.join("\n\n--- PAGE BREAK ---\n\n", pageTexts);
+    }
+
+    private String sendImageToOcrService(ByteArrayResource imageResource) {
+        WebClient webClient = WebClient.builder().baseUrl("http://localhost:5000").build();
+
+        return webClient.post().uri("/read-text").contentType(MediaType.MULTIPART_FORM_DATA).body(BodyInserters.fromMultipartData("image", imageResource)).retrieve().bodyToMono(String.class).map(response -> {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode node = mapper.readTree(response);
+                return node.get("ai_corrected_text").asText(); // lấy kết quả sửa lỗi chính tả
+            } catch (Exception e) {
+                return "";
+            }
+        }).block();
+    }
+
+
+    private String extractTextFromImage(ByteArrayResource imageResource, String filename) throws IOException {
+        WebClient webClient = WebClient.builder().baseUrl("http://localhost:5000") // Flask OCR service
+                .build();
+
+        return webClient.post().uri("/read-text").contentType(MediaType.MULTIPART_FORM_DATA).body(BodyInserters.fromMultipartData("image", new ByteArrayResource(imageResource.getByteArray()) {
+            @Override
+            public String getFilename() {
+                return filename;
+            }
+        })).retrieve().bodyToMono(String.class).map(response -> {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode node = mapper.readTree(response);
+                return node.get("ai_corrected_text").asText();
+            } catch (Exception e) {
+                return "";
+            }
+        }).block();
     }
 
     private String transcribeAudio(MultipartFile file) throws IOException {
@@ -110,16 +163,6 @@ public class FileService {
                 return "";
             }
         }).block();
-    }
-
-
-    private List<String> splitIntoChunks(String text, int maxWords) {
-        String[] words = text.split("\\s+");
-        List<String> chunks = new ArrayList<>();
-        for (int i = 0; i < words.length; i += maxWords) {
-            chunks.add(String.join(" ", Arrays.copyOfRange(words, i, Math.min(i + maxWords, words.length))));
-        }
-        return chunks;
     }
 
 //    public List<SearchResult> search(String query) {
@@ -183,22 +226,12 @@ public class FileService {
 //    }
 
     public List<SearchResult> search(String query) {
-        List<Document> pipeline = List.of(
-                new Document("$match", new Document("content", new Document("$regex", query).append("$options", "i"))),
-                new Document("$project", new Document("fileName", 1)
-                        .append("score", 1)
-                        .append("source", "regex")),
-                new Document("$limit", 50)
-        );
+        List<Document> pipeline = List.of(new Document("$match", new Document("content", new Document("$regex", query).append("$options", "i"))), new Document("$project", new Document("fileName", 1).append("score", 1).append("source", "regex")), new Document("$limit", 50));
 
-        Aggregation aggregation = Aggregation.newAggregation(
-                pipeline.stream().map((Document stage) -> (AggregationOperation) context -> stage)
-                        .collect(Collectors.toList())
-        );
+        Aggregation aggregation = Aggregation.newAggregation(pipeline.stream().map((Document stage) -> (AggregationOperation) context -> stage).collect(Collectors.toList()));
 
         AggregationResults<FileChunkWithScore> results = mongoTemplate.aggregate(aggregation, "chunks", FileChunkWithScore.class);
 
-        // ⚠️ KHÔNG loại trùng theo file nữa
         Set<String> seenFiles = new HashSet<>();
         List<SearchResult> finalResults = new ArrayList<>();
         for (FileChunkWithScore chunk : results.getMappedResults()) {
@@ -211,10 +244,7 @@ public class FileService {
         return finalResults;
     }
 
-
     public List<FileChunk> getAllFiles() {
         return mongoTemplate.findAll(FileChunk.class, "chunks");
     }
-
-
 }
