@@ -183,25 +183,32 @@ public class FileService {
 //    }
 
     public List<SearchResult> search(String query) {
-        // Tạo pipeline chỉ dùng $regex search
-        List<Document> pipeline = List.of(new Document("$match", new Document("content", new Document("$regex", query).append("$options", "i"))), new Document("$project", new Document("fileName", 1).append("score", 1) // Không có searchScore nên giữ nguyên
-                .append("source", "regex")), new Document("$limit", 50));
+        List<Document> pipeline = List.of(
+                new Document("$match", new Document("content", new Document("$regex", query).append("$options", "i"))),
+                new Document("$project", new Document("fileName", 1)
+                        .append("score", 1)
+                        .append("source", "regex")),
+                new Document("$limit", 50)
+        );
 
-        // Build aggregation
-        Aggregation aggregation = Aggregation.newAggregation(pipeline.stream().map((Document stage) -> (AggregationOperation) context -> stage).collect(Collectors.toList()));
+        Aggregation aggregation = Aggregation.newAggregation(
+                pipeline.stream().map((Document stage) -> (AggregationOperation) context -> stage)
+                        .collect(Collectors.toList())
+        );
 
-        // Chạy aggregation
         AggregationResults<FileChunkWithScore> results = mongoTemplate.aggregate(aggregation, "chunks", FileChunkWithScore.class);
 
-        Map<String, FileChunkWithScore> topChunkByFile = new HashMap<>();
+        // ⚠️ KHÔNG loại trùng theo file nữa
+        Set<String> seenFiles = new HashSet<>();
+        List<SearchResult> finalResults = new ArrayList<>();
         for (FileChunkWithScore chunk : results.getMappedResults()) {
-            String fileName = chunk.getFileName();
-            // Nếu chưa có thì thêm vào thôi, không quan tâm score
-            topChunkByFile.putIfAbsent(fileName, chunk);
+            if (!seenFiles.contains(chunk.getFileName())) {
+                finalResults.add(new SearchResult(chunk.getFileName(), 0.0));
+                seenFiles.add(chunk.getFileName());
+            }
         }
 
-        return topChunkByFile.values().stream().map(c -> new SearchResult(c.getFileName(), 0.0)) // bỏ  score
-                .collect(Collectors.toList());
+        return finalResults;
     }
 
 
