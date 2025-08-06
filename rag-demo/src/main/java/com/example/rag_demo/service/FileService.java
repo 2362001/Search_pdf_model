@@ -146,7 +146,7 @@ public class FileService {
     }
 
     private String transcribeAudio(MultipartFile file) throws IOException {
-        WebClient webClient = WebClient.builder().baseUrl("http://localhost:5005") // URL service Python Whisper
+        WebClient webClient = WebClient.builder().baseUrl("http://localhost:5001") // URL service Python Whisper
                 .build();
 
         return webClient.post().uri("/transcribe").contentType(MediaType.MULTIPART_FORM_DATA).body(BodyInserters.fromMultipartData("file", new ByteArrayResource(file.getBytes()) {
