@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { ModalComponent } from './modal/modal.component';
+import { NzButtonSize } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-root',
@@ -12,22 +15,57 @@ export class AppComponent implements OnInit, OnDestroy {
   query = '';
   results: any[] = [];
   uploadedFiles: any[] = [];
-  intervalId: any;
 
-  constructor(private http: HttpClient) { }
+  scanInterval = 5000; // milliseconds (default 5s)
+  scanIntervalInput = 5; // seconds
+  intervalId: any;
+  scanMessage = '';
+
+  isHistoryVisible = false;
+  searchHistory: string[] = [];
+  historyTimestamps: { [query: string]: string } = {};
+  size: NzButtonSize = 'large';
+  constructor(private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private modal: NzModalService
+  ) { }
 
   ngOnInit() {
     this.fetchUploadedFiles();
-
-    // Gọi lại API mỗi 5 giây
-    this.intervalId = setInterval(() => {
-      this.fetchUploadedFiles();
-    }, 10000);
+    this.startAutoFetch();
   }
 
   ngOnDestroy() {
+    this.clearAutoFetch();
+  }
+
+  onSearchHistory() {
+    this.modal.create({
+      nzTitle: 'Thông báo',
+      nzContent: '<p>Nội dung tạm để kiểm tra hiển thị</p>',
+      nzFooter: null,
+      nzClosable: true,
+      nzMaskClosable: true
+    });
+  }
+
+  startAutoFetch() {
+    this.clearAutoFetch();
+    this.intervalId = setInterval(() => {
+      this.fetchUploadedFiles();
+    }, this.scanInterval);
+  }
+
+  clearAutoFetch() {
     if (this.intervalId) {
       clearInterval(this.intervalId);
+    }
+  }
+
+  updateScanInterval() {
+    if (this.scanIntervalInput >= 1) {
+      this.scanInterval = this.scanIntervalInput * 1000;
+      this.startAutoFetch(); // restart interval with new time
     }
   }
 
@@ -53,19 +91,47 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       });
   }
+
   search() {
     if (!this.query) return;
 
+    // Gọi API tìm kiếm
     this.http.post<any[]>('http://localhost:7654/search', { query: this.query })
       .subscribe(res => {
         this.results = res;
+
+        // Ghi lại lịch sử tìm kiếm
+        if (!this.searchHistory.includes(this.query)) {
+          this.searchHistory.unshift(this.query);
+        }
+        this.historyTimestamps[this.query] = new Date().toLocaleString();
+
+        // Giới hạn lịch sử 10 mục gần nhất
+        if (this.searchHistory.length > 10) {
+          const removed = this.searchHistory.pop();
+          if (removed) delete this.historyTimestamps[removed];
+        }
       });
   }
 
   fetchUploadedFiles() {
     this.http.get<any[]>('http://localhost:7654/files')
-      .subscribe(res => {
-        this.uploadedFiles = res;
+      .subscribe({
+        next: res => {
+          this.uploadedFiles = res;
+          this.scanMessage = `Đã quét dữ liệu lúc ${new Date().toLocaleTimeString()}`;
+
+          // Tự động ẩn thông báo sau 3 giây
+          setTimeout(() => {
+            this.scanMessage = '';
+          }, 3000);
+        },
+        error: () => {
+          this.scanMessage = 'Lỗi khi quét dữ liệu!';
+          setTimeout(() => {
+            this.scanMessage = '';
+          }, 3000);
+        }
       });
   }
 }

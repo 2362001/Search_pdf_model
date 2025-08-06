@@ -1,6 +1,14 @@
 <div class="container">
   <h1 class="title">RAG Demo App</h1>
 
+  <div class="history-search">
+    <!-- Button mở lịch sử tìm kiếm -->
+    <button nz-button nzType="default" (click)="onSearchHistory()">
+      Xem lịch sử tìm kiếm
+    </button>
+  </div>
+  <nz-alert nzType="success" nzMessage="Success Text"></nz-alert>
+  <!-- <button nz-button [nzSize]="size" nzType="primary">Primary</button> -->
   <div class="grid">
     <!-- Left Column -->
     <div class="column">
@@ -66,3 +74,12 @@
     </div>
   </div>
 </div>
+<!-- <div class="scan-interval">
+  <p>Thời gian quét data: {{ scanInterval / 1000 }}s một lần.</p>
+  <p class="scan-message" *ngIf="scanMessage">{{ scanMessage }}</p>
+  <label>
+    Đổi thời gian (giây):
+    <input type="number" [(ngModel)]="scanIntervalInput" min="1" />
+    <button (click)="updateScanInterval()">Cập nhật</button>
+  </label>
+</div> -->

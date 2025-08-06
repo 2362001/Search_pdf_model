@@ -1,13 +1,13 @@
 .container {
   max-width: 1200px;
   margin: 40px auto;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   color: #003366;
 
   .title {
     text-align: center;
     font-size: 32px;
-    color: #007BFF;
+    color: #007bff;
     margin-bottom: 30px;
   }
 
@@ -49,12 +49,12 @@
   }
 
   input[type="text"] {
-    border: 1px solid #007BFF;
+    border: 1px solid #007bff;
     border-radius: 4px;
   }
 
   button {
-    background-color: #007BFF;
+    background-color: #007bff;
     border: none;
     color: white;
     border-radius: 4px;
@@ -70,8 +70,9 @@
     border-collapse: collapse;
     margin-top: 10px;
 
-    th, td {
-      border: 1px solid #007BFF;
+    th,
+    td {
+      border: 1px solid #007bff;
       padding: 8px;
       text-align: left;
     }
@@ -86,3 +87,84 @@
     color: green;
   }
 }
+
+.scan-interval {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-left: 4px solid #007bff;
+  background-color: #f0f8ff;
+  font-size: 16px;
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+
+    input {
+      width: 60px;
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 5px 10px;
+      font-size: 14px;
+    }
+  }
+}
+.scan-message {
+  color: #28a745;
+  font-style: italic;
+  margin-top: 5px;
+  animation: fade-in-out 3s ease;
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.history-box {
+  margin-top: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #007bff;
+  border-radius: 8px;
+  padding: 20px;
+
+  ul {
+    list-style-type: disc;
+    padding-left: 20px;
+
+    li {
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+  }
+
+  button {
+    margin-top: 10px;
+    background-color: #dc3545;
+    border: none;
+    padding: 6px 12px;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #c82333;
+  }
+}
+
+::ng-deep .cdk-overlay-container { z-index: 2000 !important; }
