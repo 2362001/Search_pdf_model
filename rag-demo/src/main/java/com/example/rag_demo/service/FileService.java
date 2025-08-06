@@ -6,8 +6,6 @@ import com.example.rag_demo.entity.SearchResult;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.TesseractException;
 import org.apache.tika.Tika;
 import org.apache.tika.exception.TikaException;
 import org.bson.Document;
@@ -22,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -67,51 +64,43 @@ public class FileService {
     }
 
     private String extractTextFromImage(MultipartFile file) throws IOException {
-        // Lưu file tạm ra ổ đĩa để OCR
-        File tempFile = File.createTempFile("upload", ".tmp");
-        file.transferTo(tempFile);
+        WebClient webClient = WebClient.builder().baseUrl("http://localhost:5000") // URL của Flask OCR service
+                .build();
 
-        // Khởi tạo Tesseract
-        Tesseract tesseract = new Tesseract();
-        tesseract.setDatapath("C:/Program Files/Tesseract-OCR/tessdata"); // Đường dẫn đến thư mục tessdata
-        tesseract.setLanguage("eng+vie"); // hỗ trợ tiếng Anh + tiếng Việt nếu đã cài gói
-
-        try {
-            return tesseract.doOCR(tempFile);
-        } catch (TesseractException e) {
-            throw new RuntimeException("Failed to extract text from image", e);
-        } finally {
-            tempFile.delete(); // Xoá file tạm
-        }
+        return webClient.post().uri("/read-text").contentType(MediaType.MULTIPART_FORM_DATA).body(BodyInserters.fromMultipartData("image", new ByteArrayResource(file.getBytes()) {
+            @Override
+            public String getFilename() {
+                return file.getOriginalFilename();
+            }
+        })).retrieve().bodyToMono(String.class).map(response -> {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode node = mapper.readTree(response);
+                return node.get("text").asText();  // key `text` từ Flask trả về
+            } catch (Exception e) {
+                return "";
+            }
+        }).block();
     }
 
     private String transcribeAudio(MultipartFile file) throws IOException {
-        WebClient webClient = WebClient.builder()
-                .baseUrl("http://localhost:5005") // URL service Python Whisper
+        WebClient webClient = WebClient.builder().baseUrl("http://localhost:5005") // URL service Python Whisper
                 .build();
 
-        return webClient.post()
-                .uri("/transcribe")
-                .contentType(MediaType.MULTIPART_FORM_DATA)
-                .body(BodyInserters.fromMultipartData("file",
-                        new ByteArrayResource(file.getBytes()) {
-                            @Override
-                            public String getFilename() {
-                                return file.getOriginalFilename();
-                            }
-                        }))
-                .retrieve()
-                .bodyToMono(String.class)
-                .map(response -> {
-                    try {
-                        ObjectMapper mapper = new ObjectMapper();
-                        JsonNode node = mapper.readTree(response);
-                        return node.get("text").asText();
-                    } catch (Exception e) {
-                        return "";
-                    }
-                })
-                .block();
+        return webClient.post().uri("/transcribe").contentType(MediaType.MULTIPART_FORM_DATA).body(BodyInserters.fromMultipartData("file", new ByteArrayResource(file.getBytes()) {
+            @Override
+            public String getFilename() {
+                return file.getOriginalFilename();
+            }
+        })).retrieve().bodyToMono(String.class).map(response -> {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode node = mapper.readTree(response);
+                return node.get("text").asText();
+            } catch (Exception e) {
+                return "";
+            }
+        }).block();
     }
 
 
@@ -186,26 +175,14 @@ public class FileService {
 
     public List<SearchResult> search(String query) {
         // Tạo pipeline chỉ dùng $regex search
-        List<Document> pipeline = List.of(
-                new Document("$match", new Document("content", new Document("$regex", query).append("$options", "i"))),
-                new Document("$project", new Document("fileName", 1)
-                        .append("score", 1) // Không có searchScore nên giữ nguyên
-                        .append("source", "regex")
-                ),
-                new Document("$limit", 50)
-        );
+        List<Document> pipeline = List.of(new Document("$match", new Document("content", new Document("$regex", query).append("$options", "i"))), new Document("$project", new Document("fileName", 1).append("score", 1) // Không có searchScore nên giữ nguyên
+                .append("source", "regex")), new Document("$limit", 50));
 
         // Build aggregation
-        Aggregation aggregation = Aggregation.newAggregation(
-                pipeline.stream()
-                        .map((Document stage) -> (AggregationOperation) context -> stage)
-                        .collect(Collectors.toList())
-        );
+        Aggregation aggregation = Aggregation.newAggregation(pipeline.stream().map((Document stage) -> (AggregationOperation) context -> stage).collect(Collectors.toList()));
 
         // Chạy aggregation
-        AggregationResults<FileChunkWithScore> results = mongoTemplate.aggregate(
-                aggregation, "chunks", FileChunkWithScore.class
-        );
+        AggregationResults<FileChunkWithScore> results = mongoTemplate.aggregate(aggregation, "chunks", FileChunkWithScore.class);
 
         Map<String, FileChunkWithScore> topChunkByFile = new HashMap<>();
         for (FileChunkWithScore chunk : results.getMappedResults()) {
@@ -214,8 +191,7 @@ public class FileService {
             topChunkByFile.putIfAbsent(fileName, chunk);
         }
 
-        return topChunkByFile.values().stream()
-                .map(c -> new SearchResult(c.getFileName(), 0.0)) // bỏ  score
+        return topChunkByFile.values().stream().map(c -> new SearchResult(c.getFileName(), 0.0)) // bỏ  score
                 .collect(Collectors.toList());
     }
 

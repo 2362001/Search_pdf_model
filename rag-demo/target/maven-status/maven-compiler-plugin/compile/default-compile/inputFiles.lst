@@ -1,0 +1,10 @@
+C:\Users\nttha\Desktop\demo rag\rag-demo\src\main\java\com\example\rag_demo\config\CorsConfig.java
+C:\Users\nttha\Desktop\demo rag\rag-demo\src\main\java\com\example\rag_demo\controller\SearchController.java
+C:\Users\nttha\Desktop\demo rag\rag-demo\src\main\java\com\example\rag_demo\controller\UploadController.java
+C:\Users\nttha\Desktop\demo rag\rag-demo\src\main\java\com\example\rag_demo\entity\FileChunk.java
+C:\Users\nttha\Desktop\demo rag\rag-demo\src\main\java\com\example\rag_demo\entity\FileChunkWithScore.java
+C:\Users\nttha\Desktop\demo rag\rag-demo\src\main\java\com\example\rag_demo\entity\SearchRequest.java
+C:\Users\nttha\Desktop\demo rag\rag-demo\src\main\java\com\example\rag_demo\entity\SearchResult.java
+C:\Users\nttha\Desktop\demo rag\rag-demo\src\main\java\com\example\rag_demo\RagDemoApplication.java
+C:\Users\nttha\Desktop\demo rag\rag-demo\src\main\java\com\example\rag_demo\service\EmbeddingClient.java
+C:\Users\nttha\Desktop\demo rag\rag-demo\src\main\java\com\example\rag_demo\service\FileService.java
