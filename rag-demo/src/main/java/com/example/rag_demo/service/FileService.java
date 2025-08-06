@@ -64,23 +64,32 @@ public class FileService {
     }
 
     private String extractTextFromImage(MultipartFile file) throws IOException {
-        WebClient webClient = WebClient.builder().baseUrl("http://localhost:5000") // URL của Flask OCR service
+        WebClient webClient = WebClient.builder()
+                .baseUrl("http://localhost:5000") // URL Flask OCR service
                 .build();
 
-        return webClient.post().uri("/read-text").contentType(MediaType.MULTIPART_FORM_DATA).body(BodyInserters.fromMultipartData("image", new ByteArrayResource(file.getBytes()) {
-            @Override
-            public String getFilename() {
-                return file.getOriginalFilename();
-            }
-        })).retrieve().bodyToMono(String.class).map(response -> {
-            try {
-                ObjectMapper mapper = new ObjectMapper();
-                JsonNode node = mapper.readTree(response);
-                return node.get("text").asText();  // key `text` từ Flask trả về
-            } catch (Exception e) {
-                return "";
-            }
-        }).block();
+        return webClient.post()
+                .uri("/read-text")
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(BodyInserters.fromMultipartData("image", new ByteArrayResource(file.getBytes()) {
+                    @Override
+                    public String getFilename() {
+                        return file.getOriginalFilename();
+                    }
+                }))
+                .retrieve()
+                .bodyToMono(String.class)
+                .map(response -> {
+                    try {
+                        ObjectMapper mapper = new ObjectMapper();
+                        JsonNode node = mapper.readTree(response);
+                        // Lấy text đã được AI sửa
+                        return node.get("ai_corrected_text").asText();
+                    } catch (Exception e) {
+                        return "";
+                    }
+                })
+                .block();
     }
 
     private String transcribeAudio(MultipartFile file) throws IOException {

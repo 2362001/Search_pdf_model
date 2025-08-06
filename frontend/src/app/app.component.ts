@@ -1,8 +1,7 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { CommonModule } from '@angular/common';
@@ -30,6 +29,9 @@ export class AppComponent {
   query = '';
   results: any[] = [];
   uploadedFiles: any[] = [];
+  uploadProgress = 0; // %
+  isUploading = false;
+  progressTimer: any;
 
   scanInterval = 150000;
   scanIntervalInput = 150;
@@ -104,17 +106,60 @@ export class AppComponent {
     const formData = new FormData();
     formData.append('file', this.selectedFile);
 
-    this.http.post('http://localhost:7654/upload', formData, { responseType: 'text' })
-      .subscribe({
-        next: () => {
+    this.isUploading = true;
+    this.uploadProgress = 0;
+
+    // Khởi chạy progress giả
+    this.startFakeProgress();
+
+    this.http.post('http://localhost:7654/upload', formData, {
+      reportProgress: true,
+      observe: 'events',
+      responseType: 'text'
+    }).subscribe({
+      next: event => {
+        if (event.type === HttpEventType.Response) {
+          // Khi upload xong
+          this.completeProgressBar();
           this.uploadMessage = 'Upload thành công!';
           this.selectedFile = null;
           this.fetchUploadedFiles();
-        },
-        error: () => {
-          this.uploadMessage = 'Upload thất bại!';
         }
-      });
+      },
+      error: () => {
+        this.resetProgressBar();
+        this.uploadMessage = 'Upload thất bại!';
+      }
+    });
+  }
+
+  startFakeProgress() {
+    // Tăng dần từ 0 đến 90%
+    this.progressTimer = setInterval(() => {
+      if (this.uploadProgress < 90) {
+        this.uploadProgress += 1;
+      }
+    }, 100); // Mỗi 100ms tăng 1%
+  }
+
+  completeProgressBar() {
+    clearInterval(this.progressTimer);
+    const interval = setInterval(() => {
+      this.uploadProgress += 2; // tăng nhanh hơn một chút
+      if (this.uploadProgress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          this.isUploading = false;
+          this.uploadProgress = 0;
+        }, 500); // delay một chút rồi ẩn
+      }
+    }, 30);
+  }
+
+  resetProgressBar() {
+    clearInterval(this.progressTimer);
+    this.isUploading = false;
+    this.uploadProgress = 0;
   }
 
   search() {

@@ -223,3 +223,19 @@
 ::ng-deep .cdk-overlay-container {
   z-index: 2000 !important;
 }
+
+.progress-bar-wrapper {
+  height: 5px;
+  background-color: #eee;
+  width: 100%;
+  position: relative;
+  margin-bottom: 10px;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #1890ff;
+  transition: width 0.2s ease-in-out;
+}

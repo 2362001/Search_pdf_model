@@ -9,14 +9,26 @@
   >
     Xem lịch sử tìm kiếm
   </button>
-
+  <div *ngIf="isUploading" class="progress-bar-wrapper">
+    <div class="progress-bar" [style.width.%]="uploadProgress"></div>
+  </div>
   <div class="grid">
     <div class="column">
       <div class="box">
         <h2>Upload File</h2>
         <div class="lbox">
-          <input type="file" (change)="onFileSelected($event)" />
-          <button class="btn" nz-button nzType="primary" (click)="upload()">
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            [disabled]="isUploading"
+          />
+          <button
+            class="btn"
+            nz-button
+            nzType="primary"
+            (click)="upload()"
+            [disabled]="isUploading || !selectedFile"
+          >
             Upload
           </button>
         </div>
