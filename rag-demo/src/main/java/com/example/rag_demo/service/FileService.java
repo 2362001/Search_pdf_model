@@ -26,7 +26,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,9 +40,7 @@ public class FileService {
 
     public static String removeVietnameseDiacritics(String text) {
         String normalized = java.text.Normalizer.normalize(text, java.text.Normalizer.Form.NFD);
-        return normalized.replaceAll("\\p{M}", "")  // Remove diacritic marks
-                .replaceAll("đ", "d")      // Replace đ
-                .replaceAll("Đ", "D");     // Replace Đ
+        return normalized.replaceAll("\\p{M}", "").replaceAll("đ", "d").replaceAll("Đ", "D");
     }
 
     public void processFile(MultipartFile file) throws IOException, TikaException {
@@ -49,7 +50,7 @@ public class FileService {
         FileChunk fileChunk = new FileChunk();
         fileChunk.setFileName(file.getOriginalFilename());
         fileChunk.setContent(content);
-        fileChunk.setContentNoDiacritics(contentNoDiacritics); // thêm dòng này
+        fileChunk.setContentNoDiacritics(contentNoDiacritics);
 
         mongoTemplate.save(fileChunk);
     }
@@ -68,10 +69,9 @@ public class FileService {
         } else if (mimeType.startsWith("audio/")) {
             return transcribeAudio(file);
         } else if (mimeType.equals("application/pdf")) {
-            return extractTextFromPdf(file); // 👉 Thêm hàm mới xử lý PDF
+            return extractTextFromPdf(file);
         }
 
-        // Trường hợp còn lại: văn bản
         return new Tika().parseToString(file.getInputStream());
     }
 
@@ -90,7 +90,6 @@ public class FileService {
                 baos.flush();
                 byte[] imageBytes = baos.toByteArray();
 
-                // ✅ Tạo ByteArrayResource trực tiếp từ ảnh PNG
                 ByteArrayResource imageResource = new ByteArrayResource(imageBytes) {
                     @Override
                     public String getFilename() {
@@ -98,7 +97,6 @@ public class FileService {
                     }
                 };
 
-                // ✅ Gửi ảnh OCR bằng WebClient
                 String ocrText = sendImageToOcrService(imageResource);
                 pageTexts.add(ocrText);
             }
@@ -117,7 +115,7 @@ public class FileService {
             try {
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode node = mapper.readTree(response);
-                return node.get("ai_corrected_text").asText(); // lấy kết quả sửa lỗi chính tả
+                return node.get("ai_corrected_text").asText();
             } catch (Exception e) {
                 return "";
             }
@@ -126,7 +124,7 @@ public class FileService {
 
 
     private String extractTextFromImage(ByteArrayResource imageResource, String filename) throws IOException {
-        WebClient webClient = WebClient.builder().baseUrl("http://localhost:5000") // Flask OCR service
+        WebClient webClient = WebClient.builder().baseUrl("http://localhost:5000")
                 .build();
 
         return webClient.post().uri("/read-text").contentType(MediaType.MULTIPART_FORM_DATA).body(BodyInserters.fromMultipartData("image", new ByteArrayResource(imageResource.getByteArray()) {
@@ -146,7 +144,7 @@ public class FileService {
     }
 
     private String transcribeAudio(MultipartFile file) throws IOException {
-        WebClient webClient = WebClient.builder().baseUrl("http://localhost:5001") // URL service Python Whisper
+        WebClient webClient = WebClient.builder().baseUrl("http://localhost:5001")
                 .build();
 
         return webClient.post().uri("/transcribe").contentType(MediaType.MULTIPART_FORM_DATA).body(BodyInserters.fromMultipartData("file", new ByteArrayResource(file.getBytes()) {

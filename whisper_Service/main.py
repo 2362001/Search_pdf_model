@@ -6,7 +6,7 @@ import tempfile
 app = Flask(__name__)
 
 # Load model once when server starts
-model = whisper.load_model("large")
+model = whisper.load_model("medium")
 
 @app.route("/transcribe", methods=["POST"])
 def transcribe_audio():
