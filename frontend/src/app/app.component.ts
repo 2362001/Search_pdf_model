@@ -163,7 +163,7 @@ export class AppComponent {
   }
 
   search() {
-    if (!this.query) return;
+    // if (!this.query) return;
 
     this.http.post<any[]>('http://localhost:7654/search', { query: this.query })
       .subscribe(res => {

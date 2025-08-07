@@ -59,7 +59,11 @@
       <div class="box">
         <h2>Tìm kiếm</h2>
         <div class="form-group">
-          <input [(ngModel)]="query" placeholder="Nhập nội dung" />
+          <input
+            [(ngModel)]="query"
+            placeholder="Nhập nội dung"
+            (keydown.enter)="search()"
+          />
           <button class="btn" nz-button nzType="primary" (click)="search()">
             Search
           </button>
