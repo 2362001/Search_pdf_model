@@ -45,14 +45,38 @@ public class FileService {
 
     public void processFile(MultipartFile file) throws IOException, TikaException {
         String content = extractText(file);
-        String contentNoDiacritics = removeVietnameseDiacritics(content);
+        if (file.getOriginalFilename().endsWith(".json")) {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(content);
 
-        FileChunk fileChunk = new FileChunk();
-        fileChunk.setFileName(file.getOriginalFilename());
-        fileChunk.setContent(content);
-        fileChunk.setContentNoDiacritics(contentNoDiacritics);
+            if (root.isArray()) {
+                for (JsonNode node : root) {
+                    String jsonObject = mapper.writeValueAsString(node);
+                    String normalized = removeVietnameseDiacritics(jsonObject);
 
-        mongoTemplate.save(fileChunk);
+                    FileChunk chunk = new FileChunk();
+                    chunk.setFileName(file.getOriginalFilename());
+                    chunk.setContent(jsonObject);
+                    chunk.setContentNoDiacritics(normalized);
+
+                    mongoTemplate.save(chunk);
+                }
+            } else {
+                String normalized = removeVietnameseDiacritics(content);
+                FileChunk chunk = new FileChunk();
+                chunk.setFileName(file.getOriginalFilename());
+                chunk.setContent(content);
+                chunk.setContentNoDiacritics(normalized);
+                mongoTemplate.save(chunk);
+            }
+        } else {
+            String contentNoDiacritics = removeVietnameseDiacritics(content);
+            FileChunk chunk = new FileChunk();
+            chunk.setFileName(file.getOriginalFilename());
+            chunk.setContent(content);
+            chunk.setContentNoDiacritics(contentNoDiacritics);
+            mongoTemplate.save(chunk);
+        }
     }
 
     private String extractText(MultipartFile file) throws IOException, TikaException {
@@ -70,8 +94,12 @@ public class FileService {
             return transcribeAudio(file);
         } else if (mimeType.equals("application/pdf")) {
             return extractTextFromPdf(file);
+        } else if (mimeType.equals("application/json") || file.getOriginalFilename().endsWith(".json")) {
+            // ✅ Đọc toàn bộ nội dung JSON thành chuỗi
+            return new String(file.getBytes(), java.nio.charset.StandardCharsets.UTF_8);
         }
 
+        // fallback
         return new Tika().parseToString(file.getInputStream());
     }
 
@@ -224,23 +252,36 @@ public class FileService {
 //    }
 
     public List<SearchResult> search(String query) {
-        List<Document> pipeline = List.of(new Document("$match", new Document("content", new Document("$regex", query).append("$options", "i"))), new Document("$project", new Document("fileName", 1).append("score", 1).append("source", "regex")), new Document("$limit", 50));
+        String queryNoDiacritics = removeVietnameseDiacritics(query);
 
-        Aggregation aggregation = Aggregation.newAggregation(pipeline.stream().map((Document stage) -> (AggregationOperation) context -> stage).collect(Collectors.toList()));
+        List<Document> pipeline = List.of(
+                new Document("$match", new Document("$or", List.of(
+                        new Document("content", new Document("$regex", query).append("$options", "i")),
+                        new Document("contentNoDiacritics", new Document("$regex", queryNoDiacritics).append("$options", "i"))
+                ))),
+                new Document("$project", new Document("fileName", 1).append("source", "regex").append("content", 1)),
+                new Document("$limit", 50)
+        );
+
+        Aggregation aggregation = Aggregation.newAggregation(
+                pipeline.stream().map((Document stage) -> (AggregationOperation) context -> stage)
+                        .collect(Collectors.toList())
+        );
 
         AggregationResults<FileChunkWithScore> results = mongoTemplate.aggregate(aggregation, "chunks", FileChunkWithScore.class);
 
         Set<String> seenFiles = new HashSet<>();
         List<SearchResult> finalResults = new ArrayList<>();
         for (FileChunkWithScore chunk : results.getMappedResults()) {
-            if (!seenFiles.contains(chunk.getFileName())) {
-                finalResults.add(new SearchResult(chunk.getFileName(), 0.0));
-                seenFiles.add(chunk.getFileName());
-            }
+            finalResults.add(new SearchResult(
+                    chunk.getFileName(),
+                    chunk.getContent()
+            ));
         }
 
         return finalResults;
     }
+
 
     public List<FileChunk> getAllFiles() {
         return mongoTemplate.findAll(FileChunk.class, "chunks");

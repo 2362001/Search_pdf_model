@@ -1,12 +1,13 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/postRagdb  # <--- dùng local MongoDB
-
+      uri: mongodb://localhost:27017/postRagdb
+#      uri: ${MONGO_URI:mongodb://mongodba:Vnpt512478%23%23@192.168.0.38:27020,192.168.0.215:27020/tthc?retryWrites=true&loadBalanced=false&readPreference=secondary&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1}
+#      database: ${MONGO_DATABASE:tthc}
   servlet:
     multipart:
-      max-file-size: 20MB
-      max-request-size: 20MB
+      max-file-size: 200MB
+      max-request-size: 200MB
 
 embedding:
   service-url: http://localhost:8000/embedding

@@ -9,5 +9,4 @@ public class FileChunkWithScore {
     private String fileName;
     private String content;
     private List<Double> embedding;
-    private Double score;
 }

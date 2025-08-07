@@ -7,6 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class SearchResult {
     private String tenFile;
-//    private String content;
-    private double doTuongDong;
+    private String content;
 }
