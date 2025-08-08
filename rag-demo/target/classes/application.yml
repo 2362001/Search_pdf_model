@@ -2,8 +2,11 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/postRagdb
-#      uri: ${MONGO_URI:mongodb://mongodba:Vnpt512478%23%23@192.168.0.38:27020,192.168.0.215:27020/tthc?retryWrites=true&loadBalanced=false&readPreference=secondary&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1}
-#      database: ${MONGO_DATABASE:tthc}
+  #      uri: ${MONGO_URI:mongodb://mongodba:Vnpt512478%23%23@192.168.0.38:27020,192.168.0.215:27020/tthc?retryWrites=true&loadBalanced=false&readPreference=secondary&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1}
+  #      database: ${MONGO_DATABASE:tthc}
+
+  elasticsearch:
+    uris: http://localhost:9200
   servlet:
     multipart:
       max-file-size: 200MB

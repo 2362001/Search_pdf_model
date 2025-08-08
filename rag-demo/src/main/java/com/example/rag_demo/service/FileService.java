@@ -162,7 +162,7 @@ public class FileService {
             for (int i = 0; i < document.getNumberOfPages(); i++) {
                 int pageIndex = i; // Lưu index hiện tại của trang (dùng trong nội bộ lambda)
 
-                // Render trang PDF thành hình ảnh ở độ phân giải 300 DPI (chất lượng cao để OCR chính xác hơn)
+                // Render trang PDF thành hình ảnh ở độ phân giải 300 DPI (chất lượng cao để OCR chính xác hơn) vì  300 DPI là tiêu chuẩn cho OCR (300–400 DPI)
                 BufferedImage image = renderer.renderImageWithDPI(pageIndex, 300);
 
                 // Ghi hình ảnh sang định dạng PNG vào một ByteArrayOutputStream
