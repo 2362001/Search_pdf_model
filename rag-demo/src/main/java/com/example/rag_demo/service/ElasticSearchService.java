@@ -18,9 +18,17 @@ public class ElasticSearchService {
 
     public SearchHits<Elastic> searchByContent(String keyword) {
         Query query = Query.of(q ->
-                q.match(m -> m
-                        .field("CONTENT")
-                        .query(keyword)
+                q.bool(b -> b
+                        .should(s -> s.match(m -> m
+                                .field("CONTENT")
+                                .query(keyword)
+                                .minimumShouldMatch("100%") // hoặc 80%, 90% tùy bạn
+                        ))
+                        .should(s -> s.matchPhrase(mp -> mp
+                                .field("CONTENT")
+                                .query(keyword)
+                                .boost(2.0f)
+                        ))
                 )
         );
 

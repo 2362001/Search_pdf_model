@@ -1,0 +1,45 @@
+curl -X POST "http://localhost:9200/_bulk" -H "Content-Type: application/json" --data-binary "@C:/Users/nttha/Downloads/bulk_data.json"
+
+
+docker run -d --name kibana -p 5601:5601 -e ELASTICSEARCH_HOSTS=http://host.docker.internal:9200 kibana:8.13.4
+
+PUT els_search
+{
+  "settings": {
+    "index": {
+      "max_ngram_diff": 10
+    },
+    "analysis": {
+      "tokenizer": {
+        "vi_ngram_tokenizer": {
+          "type": "ngram",
+          "min_gram": 2,
+          "max_gram": 10,
+          "token_chars": [
+            "letter",
+            "digit"
+          ]
+        }
+      },
+      "analyzer": {
+        "vi_ngram_analyzer": {
+          "type": "custom",
+          "tokenizer": "vi_ngram_tokenizer",
+          "filter": [
+            "lowercase",
+            "asciifolding"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "CONTENT": {
+        "type": "text",
+        "analyzer": "vi_ngram_analyzer",
+        "search_analyzer": "vi_ngram_analyzer"   
+      }
+    }
+  }
+} chạy index elastic
